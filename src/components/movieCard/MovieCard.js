@@ -1,15 +1,12 @@
 import styles from "./MovieCard.module.scss";
+import {Link} from "react-router-dom";
 
 export const MovieCard = ({ id, img, title, rating, year }) => {
 
-  const goToMovie = () => {
-    window.location = "/movie/" + id;
-  }
-
   return (
-    <div
+    <Link
       className={styles.MovieCard}
-      onClick={goToMovie}
+      to={"/movie/" + id}
     >
       <div className={styles.MovieCard__image}>
         <img src={img} alt="Movie Poster"/>
@@ -19,7 +16,7 @@ export const MovieCard = ({ id, img, title, rating, year }) => {
         <p className={styles.MovieCard__rating}>{rating}</p>
         <p className={styles.MovieCard__year}>{year}</p>
       </div>
-    </div>
+    </Link>
   )
 }
 

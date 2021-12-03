@@ -1,15 +1,14 @@
 import styles from "./Tag.module.scss";
+import {Link} from "react-router-dom";
 
 export const Tag = ({ id, label, type }) => {
   return (
-    <div
+    <Link
       className={styles.Tag}
-      onClick={() => {
-        document.location = `/${type}/${id}`
-      }}
+      to={`/${type}/${id}`}
     >
       {label}
-    </div>
+    </Link>
   )
 
 }
