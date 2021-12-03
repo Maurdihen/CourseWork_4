@@ -8,6 +8,7 @@ import Heading from "../../components/heading/Heading";
 import MovieCardSet from "../../components/movieCardSet/MovieCardSet";
 import {deleteFavorites, getFavorites, setFavorites} from "../../api/user";
 import {tokenChecker} from "../../utils/token";
+import {getCookie} from "../../utils/cookies";
 
 export const Movie = () => {
   const [movies, setMovies] = useState({loading: true, content: []});
@@ -96,11 +97,12 @@ export const Movie = () => {
               }}
             />
           }
-          <Button
-            label={isBookmarked ? "Удалить из избранного" : "Добавить в избранное"}
-            type="dark"
-            onClick={toggleBookmark}
-          />
+          {getCookie("AccessToken") &&
+            <Button
+              label={isBookmarked ? "Удалить из избранного" : "Добавить в избранное"}
+              type="dark"
+              onClick={toggleBookmark}
+            />}
         </div>
 
         <div className={styles.Movie__selection}>

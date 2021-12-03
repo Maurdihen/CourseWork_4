@@ -37,6 +37,19 @@
       }
     }
   }
+  &__back {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 60px;
+    width: 48px;
+    height: 48px;
+    background-color: #404550;
+    cursor: pointer;
+    z-index: 101;
+  }
   &__panel {
     position: fixed;
     display: flex;
