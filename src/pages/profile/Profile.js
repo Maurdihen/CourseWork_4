@@ -5,19 +5,33 @@ import Button from "../../components/button/Button";
 import { useEffect, useState } from "react";
 import { getUser, updateUser, updateUserPassword } from "../../api/user";
 import { tokenChecker } from "../../utils/token";
+import { getGenres } from "../../api/genres";
+import Select from "../../components/select/Select";
+import {logDOM} from "@testing-library/react";
 
 export const Profile = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [genre, setGenre] = useState("");
+  const [genres, setGenres] = useState("");
   const [password, setPassword] = useState({old: "", new: ""});
   const [email, setEmail] = useState("");
 
   useEffect(() => {
     getUser()
       .then(res => profileUpdater(res.data))
-      .catch(error => tokenChecker(error))
+      .catch(error => tokenChecker(error));
+
+    getGenres()
+      .then(res => setGenres(res.data))
+      .catch(error => {
+        console.log(error.response);
+      });
   }, []);
+
+  useEffect(() => {
+    console.log(genres);
+  }, [genres])
 
   const profileUpdater = (data) => {
     setEmail(data.email || "");
@@ -69,11 +83,12 @@ export const Profile = () => {
           onChange={(e) => setSurname(e.target.value)}
         />
 
-        <Input
-          type="text"
-          value={genre}
-          placeholder="Любимый жанр"
-          onChange={(e) => setGenre(e.target.value)}
+        <Select
+          options={genres}
+          selected={genre}
+          onChange={(e) => {
+            setGenre(e.target.value)
+          }}
         />
 
         <Button
