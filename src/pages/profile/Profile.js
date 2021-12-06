@@ -7,7 +7,6 @@ import { getUser, updateUser, updateUserPassword } from "../../api/user";
 import { tokenChecker } from "../../utils/token";
 import { getGenres } from "../../api/genres";
 import Select from "../../components/select/Select";
-import {logDOM} from "@testing-library/react";
 
 export const Profile = () => {
   const [name, setName] = useState("");
