@@ -40,3 +40,14 @@ export default axios.create({
 ### ```npm run start-legacy```
 
 Запуск прокта (Если первая команда выполнилась с ошибкой). Откройте [http://localhost:3000](http://localhost:3000) для просмотра в браузере.
+
+
+## Если не получилось запустить через npm, на помощь придет Docker
+Если возникли трудности с запуском через npm, для вас был подготовлен Docker
+контейнер с уже развернутым фронтендом
+
+1. Скачать и установить [docker](https://docs.docker.com/engine/install/)
+2. Скачать образ командой `docker pull painassasin/node_cource_project:latest`
+3. Запустить контейнер на 8080 порту `docker run -p 8080:3000 painassasin/node_cource_project`
+
+>Образ сконфигурирован таким образом, что он будет ожидать backend на 5000 локальном порту
