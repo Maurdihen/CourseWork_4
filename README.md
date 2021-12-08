@@ -1,6 +1,48 @@
-## Демонстрационный Frontend стенд
+# Демонстрационный Frontend стенд
 
-## Подготовка к запуску
+## Возможны три варианта запуска стенда
+- вернуть `index.html`
+- запустить исходники
+- поднять docker контейнер
+
+### Вернуть `index.html` (самый простой вариант)
+
+В репозитории есть папка **build**, а в ней папки **static**
+и **templates**. Необходимо перенести эти папки в корень 
+вашего  **Flask** приложения и вернуть пользователю страничку 
+**index.html**, расположенную в шаблонах.
+
+> В таком случае адрес страницы с документацией flask_restx должен
+> находиться по адресу, отличному от корня
+```python
+from flask import Flask, render_template
+from flask_restx import Api
+
+from config import Config
+from setup_db import db
+from views import directors_ns
+
+
+api = Api(title="Flask Course Project 3", doc="/docs")
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    @app.route('/')
+    def index():
+        return render_template('index.html')
+
+    db.init_app(app)
+    api.init_app(app)
+
+    api.add_namespace(directors_ns)
+    
+    return app
+```
+
+
+## Запуск из исходников
 
 1. Для начала нужно скачать и установить [NodeJS](https://nodejs.org/en/download/)
 2. Проверить, что в консоль установлена утилита npm
@@ -10,27 +52,11 @@ npm -v
 ```
 
 3. В корне проекта написать команду `npm install` тем самым установить все необходимые зависимости.
-4. Указать адрес, на котором будет работать backend-сервер в файле `/src/api/api.js`. По умолчанию
-   указан http://127.0.0.1:5000, при необходимости его можно изменить в люмой момент.
 
-```javascript
-import axios from 'axios';
-import {getCookie} from "../utils/cookies";
+>  Адрес, по которому будет frontend ожидать backend 
+> приложение [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-export default axios.create({
-    baseURL: `http://127.0.0.1:5000`,
-    // withCredentials: true,
-    headers: {
-        Authorization: "Bearer " + getCookie("AccessToken")
-    }
-});
-```
-
-## Запуск проекта
-
-### ```npm run test```
-
-Запуск тестов. Проверим, что приложение рабоатет корректно.
+4. Запуск проекта
 
 ### `npm run start`
 
@@ -41,13 +67,55 @@ export default axios.create({
 
 Запуск прокта (Если первая команда выполнилась с ошибкой). Откройте [http://localhost:3000](http://localhost:3000) для просмотра в браузере.
 
+> Чтобы все корректно работало, нам нужно в проект установить еще один пакет
+```python
 
-## Если не получилось запустить через npm, на помощь придет Docker
-Если возникли трудности с запуском через npm, для вас был подготовлен Docker
-контейнер с уже развернутым фронтендом
+from flask import Flask
+from flask_cors import CORS
+from flask_restx import Api
+
+from config import Config
+from setup_db import db
+
+api = Api(doc='/docs')
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(get_config(Config))
+
+    cors.init_app(app)
+    db.init_app(app)
+    api.init_app(app)
+```
+
+## Запуск из docker
 
 1. Скачать и установить [docker](https://docs.docker.com/engine/install/)
 2. Скачать образ командой `docker pull painassasin/node_cource_project:latest`
 3. Запустить контейнер на 8080 порту `docker run -p 8080:3000 painassasin/node_cource_project`
 
->Образ сконфигурирован таким образом, что он будет ожидать backend на 5000 локальном порту
+>Образ сконфигурирован таким образом, что он будет ожидать 
+> backend на 5000 локальном порту
+ 
+>Чтобы все корректно работало, нам нужно в проект установить еще один пакет
+```python
+
+from flask import Flask
+from flask_cors import CORS
+from flask_restx import Api
+
+from config import Config
+from setup_db import db
+
+api = Api(doc='/docs')
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(get_config(Config))
+
+    cors.init_app(app)
+    db.init_app(app)
+    api.init_app(app)
+```
