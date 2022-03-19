@@ -40,8 +40,11 @@ export const Profile = () => {
   };
 
   const submitPasswordChange = () => {
-    updateUserPassword( {password_1: password.new, password_2: password.new})
-      .then(res => profileUpdater(res.data))
+    updateUserPassword( {old_password: password.old, new_password: password.new})
+      .then(res => {
+        profileUpdater(res.data);
+        window.location = "/";
+      })
       .catch(error => {
         console.error(error.response);
       })
@@ -53,7 +56,10 @@ export const Profile = () => {
       ...(surname && {surname: surname}),
       ...(genre && {favourite_genre: genre}),
     })
-      .then()
+      .then(res => {
+        profileUpdater(res.data);
+        window.location = "/";
+      })
       .catch(error => {
         console.log(error.response)
       });
@@ -61,6 +67,7 @@ export const Profile = () => {
 
   return (
     <div className={styles.Profile}>
+
       <Header
         title="Мой профиль"
         subtitle="Sky movies"

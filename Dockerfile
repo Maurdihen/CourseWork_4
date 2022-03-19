@@ -1,13 +1,9 @@
-FROM node:lts
+FROM node:12-alpine as build
+WORKDIR /app
+COPY . /app
+RUN npm install && npm run build
 
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install && npm install -g serve
-
-COPY build ./build
-
-EXPOSE 3000
-
-CMD [ "serve", "-s", "build"]
+FROM nginx:1.16.0-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

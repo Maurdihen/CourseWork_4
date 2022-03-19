@@ -93,7 +93,7 @@ def create_app():
 
 1. Скачать и установить [docker](https://docs.docker.com/engine/install/)
 2. Скачать образ командой `docker pull painassasin/node_cource_project:latest`
-3. Запустить контейнер на 8080 порту `docker run -p 8080:3000 painassasin/node_cource_project`
+3. Запустить контейнер на 80 порту `docker run -p 80:80 painassasin/node_cource_project`
 
 >Образ сконфигурирован таким образом, что он будет ожидать 
 > backend на 5000 локальном порту
