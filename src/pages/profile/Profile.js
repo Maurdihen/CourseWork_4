@@ -42,11 +42,11 @@ export const Profile = () => {
   const submitPasswordChange = () => {
     updateUserPassword( {old_password: password.old, new_password: password.new})
       .then(res => {
-        profileUpdater(res.data);
+        alert('Пароль успешно изменен');
         window.location = "/";
       })
       .catch(error => {
-        console.error(error.response);
+        alert(error.response.data.message);
       })
   };
 
